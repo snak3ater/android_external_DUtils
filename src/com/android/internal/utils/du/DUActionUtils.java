@@ -27,8 +27,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.ThemeConfig;
-//import android.content.res.ThemeConfig;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -595,63 +593,11 @@ public final class DUActionUtils {
                     String packageName = ActionHandler.systemActions[i].mResPackage;
                     Resources res = getResourcesForPackage(context, packageName);
                     String iconName = ActionHandler.systemActions[i].mIconRes;
-                    d = getNavbarThemedDrawable(context, res, iconName);
-                    if (d == null) {
-                        d = getDrawable(res, iconName, packageName);
-                    }
+                    d = getDrawable(res, iconName, packageName);
                 }
             }
         } else {
             d = getDrawableFromComponent(context.getPackageManager(), action);
-        }
-        return d;
-    }
-
-    /**
-     * 
-     * @param calling package context, usually Settings for the custom action list adapter
-     * @param target package resources, usually SystemUI
-     * @param drawableName
-     * @return a navigation bar overlay themed action drawable if available, otherwise
-     *         return drawable from SystemUI resources
-     */
-    public static Drawable getNavbarThemedDrawable(Context context, Resources defRes,
-            String drawableName) {
-        if (context == null || defRes == null || drawableName == null)
-            return null;
-
-        ThemeConfig themeConfig = context.getResources().getConfiguration().themeConfig;
-
-        Drawable d = null;
-        if (themeConfig != null) {
-            try {
-                final String navbarThemePkgName = themeConfig.getOverlayForNavBar();
-                final String sysuiThemePkgName = themeConfig.getOverlayForStatusBar();
-                // Check if the same theme is applied for systemui, if so we can skip this
-                if (navbarThemePkgName != null && !navbarThemePkgName.equals(sysuiThemePkgName)) {
-                    // Navbar theme and SystemUI (statusbar) theme packages are different
-                    // But we can't assume navbar package has our drawable, so try navbar theme
-                    // package first. If we fail, try the systemui (statusbar) package
-                    // if we still fail, fall back to default package resource
-                    Resources res = context.getPackageManager().getThemedResourcesForApplication(
-                            PACKAGE_SYSTEMUI, navbarThemePkgName);
-                    d = getMaybeNullDrawable(res, drawableName, PACKAGE_SYSTEMUI);
-                    if (d == null) {
-                        // drawable not found in overlay, get from default SystemUI res
-                        d = getDrawable(defRes, drawableName, PACKAGE_SYSTEMUI);
-                    }
-                } else {
-                    // no navbar overlay present, get from default SystemUI res
-                    d = getDrawable(defRes, drawableName, PACKAGE_SYSTEMUI);
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-                // error thrown (unlikely), get from default SystemUI res
-                d = getDrawable(defRes, drawableName, PACKAGE_SYSTEMUI);
-            }
-        }
-        if (d == null) {
-            // theme config likely null, get from default SystemUI res
-            d = getDrawable(defRes, drawableName, PACKAGE_SYSTEMUI);
         }
         return d;
     }
