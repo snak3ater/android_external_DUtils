@@ -88,7 +88,7 @@ public class ActionHandler {
     public static final String SYSTEMUI_TASK_SETTINGS_PANEL = "task_settings_panel";
     public static final String SYSTEMUI_TASK_NOTIFICATION_PANEL = "task_notification_panel";
     public static final String SYSTEMUI_TASK_SCREENSHOT = "task_screenshot";
-    public static final String SYSTEMUI_TASK_SCREENRECORD = "task_screenrecord";
+//    public static final String SYSTEMUI_TASK_SCREENRECORD = "task_screenrecord";
     // public static final String SYSTEMUI_TASK_AUDIORECORD =
     // "task_audiorecord";
     public static final String SYSTEMUI_TASK_EXPANDED_DESKTOP = "task_expanded_desktop";
@@ -124,7 +124,7 @@ public class ActionHandler {
     public static final String SYSTEMUI_TASK_STOP_SCREENPINNING = "task_stop_screenpinning";
 
     public static final String INTENT_SHOW_POWER_MENU = "action_handler_show_power_menu";
-    public static final String INTENT_TOGGLE_SCREENRECORD = "action_handler_toggle_screenrecord";
+//    public static final String INTENT_TOGGLE_SCREENRECORD = "action_handler_toggle_screenrecord";
     public static final String INTENT_SCREENSHOT = "action_handler_screenshot";
     public static final String INTENT_TOGGLE_FLASHLIGHT = "action_handler_toggle_flashlight";
 
@@ -133,7 +133,7 @@ public class ActionHandler {
         SettingsPanel(SYSTEMUI_TASK_SETTINGS_PANEL, SYSTEMUI, "label_action_settings_panel", "ic_sysbar_settings_panel"),
         NotificationPanel(SYSTEMUI_TASK_NOTIFICATION_PANEL, SYSTEMUI, "label_action_notification_panel", "ic_sysbar_notification_panel"),
         Screenshot(SYSTEMUI_TASK_SCREENSHOT, SYSTEMUI, "label_action_screenshot", "ic_sysbar_screenshot"),
-        Screenrecord(SYSTEMUI_TASK_SCREENRECORD, SYSTEMUI, "label_action_screenrecord", "ic_sysbar_record_screen"),
+//        Screenrecord(SYSTEMUI_TASK_SCREENRECORD, SYSTEMUI, "label_action_screenrecord", "ic_sysbar_record_screen"),
         ExpandedDesktop(SYSTEMUI_TASK_EXPANDED_DESKTOP, SYSTEMUI, "label_action_expanded_desktop", "ic_sysbar_expanded_desktop"),
         ScreenOff(SYSTEMUI_TASK_SCREENOFF, SYSTEMUI, "label_action_screen_off", "ic_sysbar_screen_off"),
         KillApp(SYSTEMUI_TASK_KILL_PROCESS, SYSTEMUI, "label_action_force_close_app", "ic_sysbar_killtask"),
@@ -188,7 +188,8 @@ public class ActionHandler {
             SystemAction.Overview,SystemAction.Menu,
             SystemAction.Back, SystemAction.VoiceSearch,
             SystemAction.Home, SystemAction.ExpandedDesktop,
-            SystemAction.Screenrecord, SystemAction.Ime,
+//            SystemAction.Screenrecord,
+            SystemAction.Ime,
             SystemAction.StopScreenPinning, SystemAction.ImeArrowDown,
             SystemAction.ImeArrowLeft, SystemAction.ImeArrowRight, SystemAction.ImeArrowUp
     };
@@ -248,11 +249,11 @@ public class ActionHandler {
             } else if (TextUtils.equals(action, SYSTEMUI_TASK_CAMERA)
                     && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
                 continue;
-            } else if (TextUtils.equals(action, SYSTEMUI_TASK_SCREENRECORD)) {
-                if (!DUActionUtils.getBoolean(context, "config_enableScreenrecordChord",
-                        DUActionUtils.PACKAGE_ANDROID)) {
-                    continue;
-                }
+//            } else if (TextUtils.equals(action, SYSTEMUI_TASK_SCREENRECORD)) {
+//                if (!DUActionUtils.getBoolean(context, "config_enableScreenrecordChord",
+//                        DUActionUtils.PACKAGE_ANDROID)) {
+//                    continue;
+//                }
             }
             bundle.add(c);
         }
@@ -346,7 +347,7 @@ public class ActionHandler {
                 }
             }
         }
-
+/*
         private static void fireIntentAfterKeyguard(Intent intent) {
             IStatusBarService service = getStatusBarService();
             if (service != null) {
@@ -356,6 +357,7 @@ public class ActionHandler {
                 }
             }
         }
+*/
     }
 
     public static void toggleRecentApps() {
@@ -369,7 +371,7 @@ public class ActionHandler {
     public static void preloadRecentApps() {
         StatusBarHelper.preloadRecentApps();
     }
-
+/*
     public static void performTaskFromKeyguard(Context ctx, String action) {
         // null: throw it out
         if (action == null) {
@@ -386,7 +388,7 @@ public class ActionHandler {
             performTask(ctx, action);
         }
     }
-
+*/
     public static void performTask(Context context, String action) {
         // null: throw it out
         if (action == null) {
@@ -408,9 +410,9 @@ public class ActionHandler {
         } else if (action.equals(SYSTEMUI_TASK_SCREENSHOT)) {
             takeScreenshot(context);
             return;
-        } else if (action.equals(SYSTEMUI_TASK_SCREENRECORD)) {
-            takeScreenrecord(context);
-            return;
+//        } else if (action.equals(SYSTEMUI_TASK_SCREENRECORD)) {
+//            takeScreenrecord(context);
+//            return;
             // } else if (action.equals(SYSTEMUI_TASK_AUDIORECORD)) {
             // takeAudiorecord();
         } else if (action.equals(SYSTEMUI_TASK_EXPANDED_DESKTOP)) {
@@ -796,10 +798,10 @@ public class ActionHandler {
                 UserHandle.USER_ALL));
     }
 
-    private static void takeScreenrecord(Context context) {
-        context.sendBroadcastAsUser(new Intent(INTENT_TOGGLE_SCREENRECORD), new UserHandle(
-                UserHandle.USER_ALL));
-    }
+//    private static void takeScreenrecord(Context context) {
+//        context.sendBroadcastAsUser(new Intent(INTENT_TOGGLE_SCREENRECORD), new UserHandle(
+//                UserHandle.USER_ALL));
+//    }
 
     private static void killProcess(Context context) {
         if (context.checkCallingOrSelfPermission(android.Manifest.permission.FORCE_STOP_PACKAGES) == PackageManager.PERMISSION_GRANTED
